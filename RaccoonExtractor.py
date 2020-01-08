@@ -4,7 +4,7 @@ import json
 import requests
 import re
 
-#Classe Post para armazenar os dados de cada post
+#classe Post para armazenar os dados de cada post
 
 class Post:
 
@@ -61,7 +61,7 @@ def get_data(url):
 	return vet_posts
 
 
-# Exercicio A: funcao que retorna um vetor ordenado de acordo com as especificacoes, com os posts que contem a 
+# exercicio a: funcao que retorna um vetor ordenado de acordo com as especificacoes, com os posts que contem a 
 # palavra promocao no titulo 
 def ex_A(vet_posts):
 	vet_A = []
@@ -96,7 +96,7 @@ def ex_A(vet_posts):
 
 	return vet_A
 
-# Exericio B: Funcao que retorna um vetor ordenado de acordo com as especificacoes com os posts da 
+# exericio b: Funcao que retorna um vetor ordenado de acordo com as especificacoes com os posts da 
 # midia instagram com o numero de likes acima de 700
 def ex_B(vet_posts):
 	vet_B = []
@@ -129,7 +129,7 @@ def ex_B(vet_posts):
 				vet_B.append(p)
 	return vet_B
 
-#Exercicio C: Funcao que retorna o somatorio de likes no mes de maio de 2019 para todas as midias pagas
+#exercicio c: funcao que retorna o somatorio de likes no mes de maio de 2019 para todas as midias pagas
 def ex_C(vet_posts):
 	sum_likes = 0
 	for p in vet_posts:
@@ -140,7 +140,7 @@ def ex_C(vet_posts):
 	return sum_likes
 
 
-#Exercicio D: Funcao que retorna um vetor com os ids dos produtos que estao inconsistentes
+#exercicio d: funcao que retorna um vetor com os ids dos produtos que estao inconsistentes
 def ex_D(url):
 	r_get = requests.get(url)
 
@@ -174,8 +174,8 @@ def ex_D(url):
 
 	return vet_error
 
+#funcao que junta todos os valores necessarios para formar a string de resposta
 def resposta(vet_A, vet_B, C, vet_D):
-	arquivo = open('resposta.json','w')
 
 	str_A = ""
 	i = 0
@@ -206,7 +206,7 @@ def resposta(vet_A, vet_B, C, vet_D):
 
 
 
-	aux_A = "{ \"full_name\": \"Keith Tsukada Sasaki\", \"email\": \"keith.sasaki5@gmail.com\", \"code_link\": \"www.github.com/name/psel-raccoon\"," + "\"response_a\": [" + str_A + "],"
+	aux_A = "{ \"full_name\": \"Keith Tsukada Sasaki\", \"email\": \"keith.sasaki5@gmail.com\", \"code_link\": \"https://github.com/keithsasaki/psel-racoonn\"," + "\"response_a\": [" + str_A + "],"
 	aux_B = "\"response_b\": [" + str_B + "],"
 	aux_C = "\"response_c\":" + str(C) + ","
 	aux_D = "\"response_d\": ["+ str_D + "] }"
@@ -217,7 +217,7 @@ def resposta(vet_A, vet_B, C, vet_D):
 	return json_string
 
 
-#Funcao main
+#funcao principal
 def main():
 	url_get = 'https://us-central1-psel-clt-ti-junho-2019.cloudfunctions.net/psel_2019_get'
 	url_get_d = 'https://us-central1-psel-clt-ti-junho-2019.cloudfunctions.net/psel_2019_get_error'
@@ -229,12 +229,11 @@ def main():
 	C = ex_C(vet_posts)
 	vet_D = ex_D(url_get_d)
 
-	resp = resposta(vet_A, vet_B, C, vet_D) 
+	resp = resposta(vet_A, vet_B, C, vet_D)
 
-	response = requests.request("POST", url_post, data=resp)
+	headers = {'content-type': 'application/json'}
 
-	print resp
-
+	r = requests.post(url_post,  data = resp, headers = headers)
 
 if __name__ == "__main__":
     main()
